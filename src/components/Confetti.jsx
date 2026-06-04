@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-
 const COLORS = ['#2563EB','#F97316','#10B981','#FBBF24','#F43F5E','#8B5CF6','#3B82F6'];
 
 export default function Confetti({ active }) {
