@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { Star, User, MessageSquare, AlertCircle, ArrowUpDown } from 'lucide-react';
 
