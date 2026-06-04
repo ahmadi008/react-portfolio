@@ -47,7 +47,7 @@ function PortfolioApp() {
         <FeedbackWall />
         <Contact />
       </main>
-
+// checking
       <footer style={{ background:'var(--color-surface)', borderTop:'1px solid var(--color-border)', padding:'40px 24px', textAlign:'center' }}>
         <div style={{ maxWidth:1100, margin:'0 auto' }}>
           <p style={{ fontFamily:'var(--font-heading)', fontSize:32, fontWeight:700, color:'var(--color-primary)', marginBottom:12 }}>
