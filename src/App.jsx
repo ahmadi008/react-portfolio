@@ -1,68 +1,104 @@
-import { useState, useEffect } from 'react'
-import Navbar   from './components/Navbar'
-import Header   from './components/Header'
-import Profile  from './components/Profile'
-import About    from './components/About'
-import Projects from './components/Projects'
-import Footer   from './components/Footer'
+import { useState, useEffect, useRef } from 'react';
+import { ThemeProvider } from './components/ThemeProvider';
+import ScrollProgress from './components/ScrollProgress';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import About from './components/About';
+import Skills from './components/Skills';
+import Projects from './components/Projects';
+import FeedbackWall from './components/FeedbackWall';
+import Contact from './components/Contact';
+import Confetti from './components/Confetti';
+import { Github, Linkedin, Mail, ArrowUp } from 'lucide-react';
 
-// ── Your personal data – edit these to update the whole site ──────────────
-const PORTFOLIO = {
-  name:           'Zahra Ahmadi',
-  title:          'Frontend Developer',
-  welcomeMessage: "Hello, I'm",
-  bio: 'I graduated from the CS Faculty of Kabul University in 2022. ' +
-       'In 2024, I worked on a real-world Joomla CMS project. ' +
-       'Currently expanding my skills through the CodeWeekend bootcamp, ' +
-       'with a future goal of building a career in AI and technology.',
+function PortfolioApp() {
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const confettiFired = useRef(false);
+
+  useEffect(() => {
+    const onScroll = () => setShowBackToTop(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Confetti fires once on first load
+  useEffect(() => {
+    if (!confettiFired.current) {
+      confettiFired.current = true;
+      const t = setTimeout(() => {
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 4000);
+      }, 1000);
+      return () => clearTimeout(t);
+    }
+  }, []);
+
+  return (
+    <>
+      <ScrollProgress />
+      <Navbar />
+      <main>
+        <Hero />
+        <About />
+        <Skills />
+        <Projects />
+        <FeedbackWall />
+        <Contact />
+      </main>
+
+      <footer style={{ background:'var(--color-surface)', borderTop:'1px solid var(--color-border)', padding:'40px 24px', textAlign:'center' }}>
+        <div style={{ maxWidth:1100, margin:'0 auto' }}>
+          <p style={{ fontFamily:'var(--font-heading)', fontSize:32, fontWeight:700, color:'var(--color-primary)', marginBottom:12 }}>
+            Zahra Ahmadi
+          </p>
+          <p style={{ fontFamily:'var(--font-body)', fontSize:14, color:'var(--color-text-muted)', marginBottom:24 }}>
+            Frontend Developer · Building with passion
+          </p>
+          <div style={{ display:'flex', gap:16, justifyContent:'center', marginBottom:24 }}>
+            {[
+              { icon: <Github size={18}/>, href:'https://github.com/ahmadi008', label:'GitHub' },
+              { icon: <Linkedin size={18}/>, href:'#', label:'LinkedIn' },
+              { icon: <Mail size={18}/>, href:'#contact', label:'Email' },
+            ].map(s => (
+              <a key={s.label} href={s.href} aria-label={s.label}
+                style={{ width:38, height:38, display:'flex', alignItems:'center', justifyContent:'center',
+                  borderRadius:8, border:'1px solid var(--color-border)', color:'var(--color-text-muted)',
+                  textDecoration:'none', transition:'all 0.2s' }}
+                onMouseEnter={e => { e.currentTarget.style.color='var(--color-primary)'; e.currentTarget.style.borderColor='var(--color-primary)'; e.currentTarget.style.transform='translateY(-2px)'; }}
+                onMouseLeave={e => { e.currentTarget.style.color='var(--color-text-muted)'; e.currentTarget.style.borderColor='var(--color-border)'; e.currentTarget.style.transform=''; }}
+              >{s.icon}</a>
+            ))}
+          </div>
+          <p style={{ fontFamily:'var(--font-body)', fontSize:13, color:'var(--color-text-muted)' }}>
+            © {new Date().getFullYear()} Zahra Ahmadi. Built with React & Vite.
+          </p>
+        </div>
+      </footer>
+
+      <Confetti active={showConfetti} />
+
+      {showBackToTop && (
+        <button onClick={() => window.scrollTo({ top:0, behavior:'smooth' })}
+          aria-label="Back to top"
+          style={{ position:'fixed', bottom:88, right:24, width:44, height:44, borderRadius:'50%',
+            background:'var(--color-primary)', color:'#fff', border:'none', cursor:'pointer',
+            display:'flex', alignItems:'center', justifyContent:'center',
+            boxShadow:'var(--shadow-md)', zIndex:500, animation:'scaleIn 0.3s ease', transition:'transform 0.2s' }}
+          onMouseEnter={e => e.currentTarget.style.transform='scale(1.1)'}
+          onMouseLeave={e => e.currentTarget.style.transform=''}
+        >
+          <ArrowUp size={20} />
+        </button>
+      )}
+    </>
+  );
 }
 
 export default function App() {
-  // Stretch feature: dark / light theme toggle
-  const [isDark, setIsDark] = useState(true)
-
-  useEffect(() => {
-    const r = document.documentElement
-    if (isDark) {
-      r.style.setProperty('--bg-primary',    '#080808')
-      r.style.setProperty('--bg-card',       '#161616')
-      r.style.setProperty('--text-primary',  '#E8E4DC')
-      r.style.setProperty('--text-secondary','#A09C94')
-      r.style.setProperty('--text-muted',    '#5a5750')
-      r.style.setProperty('--border',        'rgba(255,255,255,0.07)')
-    } else {
-      r.style.setProperty('--bg-primary',    '#FAFAF8')
-      r.style.setProperty('--bg-card',       '#FFFFFF')
-      r.style.setProperty('--text-primary',  '#1A1814')
-      r.style.setProperty('--text-secondary','#5C5850')
-      r.style.setProperty('--text-muted',    '#9A9590')
-      r.style.setProperty('--border',        'rgba(0,0,0,0.08)')
-    }
-  }, [isDark])
-
   return (
-    <div style={{ backgroundColor: 'var(--bg-primary)', minHeight: '100vh',
-                  transition: 'background-color 0.3s' }}>
-
-      {/* Navbar receives theme state + toggle handler as props */}
-      <Navbar isDark={isDark} onToggleTheme={() => setIsDark(p => !p)} />
-
-      <main>
-        {/* Header: name and welcome message passed as props */}
-        <Header name={PORTFOLIO.name} welcomeMessage={PORTFOLIO.welcomeMessage} />
-
-        {/* Profile: all data comes from props */}
-        <Profile name={PORTFOLIO.name} title={PORTFOLIO.title} bio={PORTFOLIO.bio} />
-
-        {/* About: uses useState for Show More / Show Less */}
-        <About />
-
-        {/* Projects: renders array with .map() + conditional Featured badge */}
-        <Projects />
-      </main>
-
-      {/* Footer: name prop used for dynamic copyright */}
-      <Footer name={PORTFOLIO.name} />
-    </div>
-  )
+    <ThemeProvider>
+      <PortfolioApp />
+    </ThemeProvider>
+  );
 }
