@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { ThemeProvider } from './components/ThemeProvider';
 import ScrollProgress from './components/ScrollProgress';
