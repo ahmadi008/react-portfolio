@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
 
