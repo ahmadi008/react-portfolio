@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { Sun, Moon, Menu, X, Sunset } from 'lucide-react';
 import { useTheme } from './ThemeProvider';
