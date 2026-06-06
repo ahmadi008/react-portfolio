@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { ExternalLink, Star, ChevronDown, ChevronUp, RefreshCw } from 'lucide-react';
 
